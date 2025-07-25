@@ -7,7 +7,7 @@ class Block(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     previous_hash = db.Column(db.String(255))
     current_hash = db.Column(db.String(255), nullable=False)
-    degree_id = db.Column(db.Integer, db.ForeignKey('degrees.id'), nullable=False)
+    degree_id = db.Column(db.Integer, db.ForeignKey('degrees.id'), nullable=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     
     nonce = db.Column(db.Integer, nullable=False)

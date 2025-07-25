@@ -9,6 +9,7 @@ from views.routes import init_routes
 from controllers.student_controller import student_bp
 from controllers import AdminController, BlockchainController
 from views.routes import routes
+from my_models import Block
 
 # Ensure current directory and root are in sys.path
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -33,9 +34,10 @@ def create_app():
 
     # Initialize DB tables and blockchain
     with app.app_context():
-        db.create_all()
-        AdminController.initialize_admins()
-        BlockchainController.initialize_blockchain()
+         if not Block.query.first():
+            db.create_all()
+            AdminController.initialize_admins()
+            BlockchainController.initialize_blockchain()
 
     return app
 app = create_app()
