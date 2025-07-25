@@ -1,0 +1,456 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Verification Hero Section -->
+<section class="verification-hero py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <div class="hero-content p-4 p-lg-5">
+          <h1 class="display-4 fw-bold mb-3 text-gradient">
+            <span class="d-block">Degree</span>
+            <span class="d-block">Verification</span>
+          </h1>
+          <p class="lead mb-4">Validate academic credentials with blockchain-powered security</p>
+          <p class="lead mb-4">With DegreeChain, institutions issue and individuals verify qualifications in real-time, eliminating fraud and enhancing global transparency in academic achievement.</p>
+          <div class="trust-badges d-flex flex-wrap gap-3 mb-4">
+            <span class="badge bg-primary bg-opacity-10 text-primary p-3 border-0 rounded-pill">
+              <i class="fas fa-shield-alt me-2"></i> Tamper-Proof
+            </span>
+            <span class="badge bg-primary bg-opacity-10 text-primary p-3 border-0 rounded-pill">
+              <i class="fas fa-link me-2"></i> Blockchain Secured
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-none d-lg-block">
+        <div class="hero-visual p-4 text-center position-relative">
+          <div class="blockchain-visual">
+            <!-- Blockchain nodes animation -->
+            <div class="blockchain-animation">
+              <div class="blockchain-node node-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Blockchain Node"></div>
+              <div class="blockchain-node node-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Blockchain Node"></div>
+              <div class="blockchain-node node-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Blockchain Node"></div>
+              <div class="blockchain-node node-4" data-bs-toggle="tooltip" data-bs-placement="top" title="Blockchain Node"></div>
+              <div class="blockchain-node node-5" data-bs-toggle="tooltip" data-bs-placement="top" title="Blockchain Node"></div>
+              <div class="blockchain-node node-6" data-bs-toggle="tooltip" data-bs-placement="top" title="Blockchain Node"></div>
+              
+              <!-- Connecting lines -->
+              <svg class="blockchain-connections" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path class="connection-line" d="M20,50 Q50,30 80,50" />
+                <path class="connection-line" d="M20,50 Q50,70 80,50" />
+                <path class="connection-line" d="M20,50 L35,35" />
+                <path class="connection-line" d="M80,50 L65,35" />
+                <path class="connection-line" d="M35,35 L65,35" />
+              </svg>
+              
+              <!-- Degree document in center -->
+              <div class="degree-document" data-bs-toggle="tooltip" data-bs-placement="top" title="Verified Degree">
+                <i class="fas fa-certificate"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Verification Section -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-lg">
+        <div class="card-body p-4 p-md-5">
+          <!-- Verification Form -->
+          <form method="POST" action="{{ url_for('verify_degree') }}" class="needs-validation" novalidate>
+            <div class="mb-4">
+              <label for="degree_id" class="form-label fw-bold">
+                <i class="fas fa-id-card me-2"></i>Enter Verification Details
+              </label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-end-0">
+                  <i class="fas fa-magnifying-glass"></i>
+                </span>
+                <input 
+                  type="text" 
+                  class="form-control form-control-lg border-start-0" 
+                  id="degree_id" 
+                  name="degree_id" 
+                  placeholder="Degree ID or 64-character hash" 
+                  required
+                >
+                
+              </div>
+              <div class="form-text mt-2 ps-4">
+                <i class="fas fa-info-circle me-2"></i>Example: "DEG-2023-2874" or "a1b2c3d4e5f6..."
+              </div>
+              <div class="invalid-feedback ps-4">
+                Please provide a valid Degree ID or verification hash
+              </div>
+            </div>
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary btn-lg py-3 btn-verify">
+                <i class="fas fa-search me-2"></i> Verify Credential
+                <span class="spinner-border spinner-border-sm ms-2 d-none" role="status" aria-hidden="true"></span>
+              </button>
+            </div>
+          </form>
+<!-- Verification Results -->
+{% if verification_result and verified %}
+<div class="mt-5 pt-4">
+  <div class="alert alert-success border-0 shadow-sm d-flex align-items-start gap-3">
+    <i class="fas fa-check-circle fa-2x text-success animate__animated animate__bounceIn"></i>
+    <div>
+      <h4 class="alert-heading mb-1">Verification Successful!</h4>
+      <p class="mb-1">This credential has been permanently recorded on the blockchain network.</p>
+      <small class="text-muted">
+        <i class="fas fa-clock me-1"></i> Verified on {{ verification_result.timestamp }}
+      </small>
+    </div>
+  </div>
+
+  <div class="row g-4 mt-4">
+    <!-- Academic Credential Card -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100 animate__animated animate__fadeInUp">
+        <div class="card-header bg-primary bg-opacity-10 d-flex align-items-center">
+          <i class="fas fa-user-graduate text-primary me-2"></i>
+          <h5 class="mb-0 fw-bold">Academic Credential</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item border-0 py-2"><strong>Degree ID:</strong> {{ verification_result.degree_id }}</li>
+            <li class="list-group-item border-0 py-2"><strong>Student ID:</strong> {{ verification_result.student_id }}</li>
+            <li class="list-group-item border-0 py-2"><strong>Degree Name:</strong> {{ verification_result.degree_name }}</li>
+            <li class="list-group-item border-0 py-2"><strong>Institution:</strong> {{ verification_result.institution }}</li>
+            <li class="list-group-item border-0 py-2"><strong>Year Awarded:</strong> {{ verification_result.year_awarded }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blockchain Proof Card -->
+    <div class="col-md-6">
+      <div class="card border-0 shadow-sm h-100 animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="card-header bg-success bg-opacity-10 d-flex align-items-center">
+          <i class="fas fa-link text-success me-2"></i>
+          <h5 class="mb-0 fw-bold">Blockchain Proof</h5>
+        </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item border-0 py-2">
+              <strong>Transaction Hash:</strong>
+              <code class="d-block text-truncate mt-1" title="{{ verification_result.verification_hash }}">{{ verification_result.verification_hash }}</code>
+            </li>
+            <li class="list-group-item border-0 py-2"><strong>Block Index:</strong> {{ verification_result.block_index }}</li>
+            <li class="list-group-item border-0 py-2"><strong>Network:</strong> DegreeChain Mainnet</li>
+            <li class="list-group-item border-0 py-2">
+              <strong>Verification Status:</strong>
+              <span class="badge bg-success ms-2 px-3 py-1 rounded-pill">✔ Confirmed</span>
+              <div class="progress mt-2" style="height: 6px;">
+                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" style="width: 100%;"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trust Indicators Section -->
+<section class="bg-light py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="text-center p-4 hover-effect">
+          <div class="icon-circle bg-primary bg-opacity-10 mb-3 mx-auto">
+            <i class="fas fa-lock text-primary"></i>
+          </div>
+          <h5 class="fw-bold">Military-Grade Security</h5>
+          <p class="text-muted">SHA-256 encryption ensures your credentials are protected against tampering.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center p-4 hover-effect">
+          <div class="icon-circle bg-success bg-opacity-10 mb-3 mx-auto">
+            <i class="fas fa-bolt text-success"></i>
+          </div>
+          <h5 class="fw-bold">Instant Validation</h5>
+          <p class="text-muted">Real-time verification against the blockchain network.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="text-center p-4 hover-effect">
+          <div class="icon-circle bg-info bg-opacity-10 mb-3 mx-auto">
+            <i class="fas fa-globe text-info"></i>
+          </div>
+          <h5 class="fw-bold">Global Recognition</h5>
+          <p class="text-muted">Accepted by employers and institutions worldwide.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Custom Styles */
+  .verification-hero {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-bottom: 1px solid rgba(26, 35, 126, 0.1);
+  }
+  
+  .text-gradient {
+    background: linear-gradient(90deg, #1a237e 0%, #1976d2 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  /* Blockchain Animation */
+  .blockchain-animation {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto;
+  }
+  
+  .blockchain-node {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background: #1a237e;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.8rem;
+    box-shadow: 0 4px 15px rgba(26, 35, 126, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .blockchain-node:hover {
+    transform: scale(1.2);
+    box-shadow: 0 6px 20px rgba(26, 35, 126, 0.4);
+  }
+  
+  .node-1 { top: 10%; left: 50%; transform: translateX(-50%); }
+  .node-2 { top: 30%; left: 10%; }
+  .node-3 { top: 30%; right: 10%; }
+  .node-4 { bottom: 30%; left: 10%; }
+  .node-5 { bottom: 30%; right: 10%; }
+  .node-6 { bottom: 10%; left: 50%; transform: translateX(-50%); }
+  
+  .blockchain-connections {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+  
+  .connection-line {
+    stroke: #1a237e;
+    stroke-width: 2;
+    stroke-dasharray: 5;
+    fill: none;
+    animation: dash 5s linear infinite;
+  }
+  
+  @keyframes dash {
+    from { stroke-dashoffset: 100; }
+    to { stroke-dashoffset: 0; }
+  }
+  
+  .degree-document {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background: #1976d2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+    box-shadow: 0 10px 25px rgba(25, 118, 210, 0.3);
+    animation: pulse 2s infinite alternate;
+    cursor: pointer;
+  }
+  
+  .degree-document:hover {
+    animation: none;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  
+  @keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    100% { transform: translate(-50%, -50%) scale(1.05); }
+  }
+  
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .hover-effect:hover .icon-circle {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+  
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px !important;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+  }
+  
+  .form-control:focus {
+    border-color: #1a237e;
+    box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.25);
+  }
+  
+  .input-group-text {
+    background-color: #f8f9fa !important;
+  }
+  
+  .btn-verify {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-verify::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255,255,255,0.1);
+    transform: rotate(45deg);
+    transition: all 0.6s ease;
+    pointer-events: none;
+  }
+  
+  .btn-verify:hover::after {
+    left: 100%;
+  }
+  
+  .btn-action {
+    transition: all 0.3s ease;
+  }
+  
+  .btn-action:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+</style>
+
+<script>
+  // Form validation
+  (function() {
+    'use strict'
+    const forms = document.querySelectorAll('.needs-validation')
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        } else {
+          // Show loading spinner
+          const submitBtn = form.querySelector('.btn-verify');
+          submitBtn.disabled = true;
+          submitBtn.querySelector('.spinner-border').classList.remove('d-none');
+        }
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+  
+  // Initialize tooltips
+  document.addEventListener('DOMContentLoaded', function() {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+    
+    // Animate elements when they come into view
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate__animated', 'animate__fadeInUp')
+        }
+      })
+    }, { threshold: 0.1 })
+    
+    document.querySelectorAll('.card, .alert, .hover-effect').forEach(el => {
+      observer.observe(el)
+    });
+    
+    // Button actions
+    document.querySelectorAll('.btn-action').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const action = this.getAttribute('data-action');
+        let message = '';
+        
+        switch(action) {
+          case 'print':
+            message = 'Print functionality would be implemented here';
+            break;
+          case 'share':
+            message = 'Share functionality would be implemented here';
+            break;
+          case 'download':
+            message = 'PDF download would be generated here';
+            break;
+        }
+        
+        // Show toast notification
+        const toast = new bootstrap.Toast(document.getElementById('actionToast'));
+        document.getElementById('toastMessage').textContent = message;
+        toast.show();
+      });
+    });
+    
+    // QR code scanner button
+    document.getElementById('scanQRBtn').addEventListener('click', function() {
+      alert('QR code scanner would be activated here');
+    });
+  });
+</script>
+
+<!-- Toast notification (hidden by default) -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="actionToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Action</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body" id="toastMessage">
+      Action would be performed here
+    </div>
+  </div>
+</div>
+{% endblock %}

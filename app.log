@@ -1,0 +1,69 @@
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 947-171-447
+INFO:werkzeug: * Detected change in 'c:\\Users\\dell\\OneDrive\\Desktop\\degree_verification_system_1\\degree_verification_system\\app.py', reloading
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 947-171-447
+INFO:werkzeug: * Detected change in 'c:\\Users\\dell\\OneDrive\\Desktop\\degree_verification_system_1\\degree_verification_system\\controllers\\student_controller.py', reloading
+2025-06-13 06:09:24,841 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:09:25,129 - WARNING -  * Debugger is active!
+2025-06-13 06:09:25,131 - INFO -  * Debugger PIN: 947-171-447
+2025-06-13 06:09:36,000 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:09:36,258 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.19:5000
+2025-06-13 06:09:36,258 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-13 06:09:36,259 - INFO -  * Restarting with stat
+2025-06-13 06:09:36,884 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:09:37,025 - WARNING -  * Debugger is active!
+2025-06-13 06:09:37,028 - INFO -  * Debugger PIN: 947-171-447
+2025-06-13 06:10:01,330 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:10:01,619 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.19:5000
+2025-06-13 06:10:01,619 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-13 06:10:01,620 - INFO -  * Restarting with stat
+2025-06-13 06:10:02,222 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:10:02,360 - WARNING -  * Debugger is active!
+2025-06-13 06:10:02,363 - INFO -  * Debugger PIN: 947-171-447
+2025-06-13 06:11:02,074 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:11:02,229 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.19:5000
+2025-06-13 06:11:02,229 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-13 06:11:02,231 - INFO -  * Restarting with stat
+2025-06-13 06:11:02,831 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:11:02,982 - WARNING -  * Debugger is active!
+2025-06-13 06:11:02,984 - INFO -  * Debugger PIN: 947-171-447
+2025-06-13 06:13:39,129 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:13:39,426 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.19:5000
+2025-06-13 06:13:39,426 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-13 06:13:39,427 - INFO -  * Restarting with stat
+2025-06-13 06:13:40,029 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:13:40,175 - WARNING -  * Debugger is active!
+2025-06-13 06:13:40,179 - INFO -  * Debugger PIN: 947-171-447
+2025-06-13 06:14:13,102 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:14:13,256 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.19:5000
+2025-06-13 06:14:13,256 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-13 06:14:13,258 - INFO -  * Restarting with stat
+2025-06-13 06:14:13,867 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:14:14,174 - WARNING -  * Debugger is active!
+2025-06-13 06:14:14,177 - INFO -  * Debugger PIN: 947-171-447
+2025-06-13 06:14:47,807 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:14:47,961 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.19:5000
+2025-06-13 06:14:47,961 - INFO - [33mPress CTRL+C to quit[0m
+2025-06-13 06:14:47,962 - INFO -  * Restarting with stat
+2025-06-13 06:14:48,574 - INFO - Certificate directory ready at: c:\Users\dell\OneDrive\Desktop\degree_verification_system_1\degree_verification_system\data\certificates
+2025-06-13 06:14:48,865 - WARNING -  * Debugger is active!
+2025-06-13 06:14:48,868 - INFO -  * Debugger PIN: 947-171-447

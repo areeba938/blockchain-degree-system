@@ -1,0 +1,66 @@
+[
+    {
+        "index": 0,
+        "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "timestamp": "2025-07-18T09:34:32.421823",
+        "data": {
+            "created_at": "2025-07-18T15:04:32.421777",
+            "degree_name": "Genesis Degree",
+            "field_of_study": "Genesis Block",
+            "id": 0,
+            "institution": "Blockchain Authority",
+            "student_id": "0000",
+            "year_awarded": 2024
+        },
+        "nonce": 0,
+        "hash": "ae2c654efcc5ff37e6fd9c12ab8311a1aea27cc22c0de52e060c33212265060f"
+    },
+    {
+        "index": 1,
+        "previous_hash": "ae2c654efcc5ff37e6fd9c12ab8311a1aea27cc22c0de52e060c33212265060f",
+        "timestamp": "2025-07-18T09:37:48.198790",
+        "data": {
+            "created_at": "2025-07-18T15:05:14.257031",
+            "degree_name": "MCA",
+            "field_of_study": "Department of Computer Science",
+            "id": 1,
+            "institution": "University of Kashmir Main Campus",
+            "student_id": "23045110009",
+            "year_awarded": 2026
+        },
+        "nonce": 0,
+        "hash": "7d44c5905979496e764ce836df3e4eacba56497ba4eceb4da49ca02de5ec18ed"
+    },
+    {
+        "index": 2,
+        "previous_hash": "7d44c5905979496e764ce836df3e4eacba56497ba4eceb4da49ca02de5ec18ed",
+        "timestamp": "2025-07-18T09:37:52.812225",
+        "data": {
+            "created_at": "2025-07-18T15:06:12.360818",
+            "degree_name": "I MBA",
+            "field_of_study": "Department of Management",
+            "id": 2,
+            "institution": "University of Kashmir Main Campus",
+            "student_id": "23045110009",
+            "year_awarded": 2026
+        },
+        "nonce": 0,
+        "hash": "75604ae916d3ee77648a044d751656d5107f3454636255a7d8e1cd500deb23e5"
+    },
+    {
+        "index": 3,
+        "previous_hash": "75604ae916d3ee77648a044d751656d5107f3454636255a7d8e1cd500deb23e5",
+        "timestamp": "2025-07-21T07:20:49.052332",
+        "data": {
+            "created_at": "2025-07-21T12:48:29.741033",
+            "degree_name": "MCA",
+            "field_of_study": "Department of Computer Science",
+            "id": 4,
+            "institution": "University of Kashmir Main Campus",
+            "student_id": "23045110037",
+            "year_awarded": 2026
+        },
+        "nonce": 0,
+        "hash": "ad1948a2a4c1b042379a7b3e82a7c09831097727c201f7ed820c0632fd75a58e"
+    }
+]

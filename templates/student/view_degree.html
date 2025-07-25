@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- Degree Details Card (unchanged) -->
+            <div class="card border-0 shadow-lg rounded-3 mb-4">
+                <div class="card-header bg-gradient-primary text-white py-3">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-certificate fa-2x me-3"></i>
+                        <h2 class="mb-0">Degree Verification</h2>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="degree-details">
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-id-card me-2"></i>Student ID:</span><span class="detail-value">{{ degree.student_id }}</span></div>
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-graduation-cap me-2"></i>Degree:</span><span class="detail-value">{{ degree.degree_name }}</span></div>
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-university me-2"></i>Institution:</span><span class="detail-value">{{ degree.institution }}</span></div>
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-calendar-alt me-2"></i>Year Awarded:</span><span class="detail-value">{{ degree.year_awarded }}</span></div>
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-book me-2"></i>Field of Study:</span><span class="detail-value">{{ degree.field_of_study }}</span></div>
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-clock me-2"></i>Created At:</span><span class="detail-value">{{ degree.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</span></div>
+                                <div class="detail-item"><span class="detail-label"><i class="fas fa-info-circle me-2"></i>Status:</span><span class="badge bg-{{ 'success' if degree.status == 'Approved' else 'warning' }} rounded-pill px-3">{{ degree.status }}</span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="verification-status text-center py-4">
+                                {% if degree.status == 'Approved' %}
+                                    <div class="verified-badge mb-3">
+                                        <i class="fas fa-check-circle fa-4x text-success"></i>
+                                        <div class="h4 mt-2">Verified</div>
+                                    </div>
+                                    <p class="text-muted">This credential has been permanently recorded on the blockchain</p>
+                                {% else %}
+                                    <div class="pending-badge mb-3">
+                                        <i class="fas fa-clock fa-4x text-warning"></i>
+                                        <div class="h4 mt-2">Pending Approval</div>
+                                    </div>
+                                    <p class="text-muted">Awaiting verification from administrators</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blockchain Section -->
+            {% if block %}
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-header bg-white border-0 py-3">
+                    <h3 class="mb-0"><i class="fas fa-link me-2 text-primary"></i>Blockchain Verification</h3>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <strong><i class="fas fa-hashtag me-2"></i>Block ID:</strong>
+                                <div class="text-muted">{{ block.id }}</div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <strong><i class="fas fa-check-circle me-2"></i>Verification Status:</strong>
+                                <div><span class="badge bg-{{ 'success' if block.approved else 'warning' }} rounded-pill px-3">{{ "Verified" if block.approved else "Pending" }}</span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="p-3 border rounded bg-light">
+                                <strong><i class="fas fa-fingerprint me-2"></i>Transaction Hash:</strong>
+                                <div>
+                                    <code class="d-block text-truncate" style="max-width: 100%;" data-bs-toggle="tooltip" title="{{ block.current_hash }}">{{ block.current_hash }}</code>
+                                    <small class="text-muted">Unique identifier for this transaction</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 border rounded bg-light">
+                                <strong><i class="fas fa-calendar-alt me-2"></i>Timestamp:</strong>
+                                <div class="text-muted">{{ block.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if approvals %}
+                    <!-- Approval History (Redesigned) -->
+                    <div class="approval-history mt-5">
+                        <h5 class="mb-3"><i class="fas fa-user-check me-2 text-primary"></i>Approval History</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle shadow-sm rounded bg-white">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th><i class="fas fa-user-shield me-2"></i>Admin</th>
+                                        <th><i class="fas fa-gavel me-2"></i>Action</th>
+                                        <th><i class="fas fa-clock me-2"></i>Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for approval in approvals %}
+                                    <tr>
+                                        <td class="fw-semibold">{{ approval.admin.username }}</td>
+                                        <td>
+                                            <span class="badge bg-{{ 'success' if approval.approval_status else 'danger' }} px-3 py-1 rounded-pill">
+                                                {{ "Approved" if approval.approval_status else "Rejected" }}
+                                            </span>
+                                        </td>
+                                        <td class="text-muted">{{ approval.approved_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% else %}
+            <div class="alert alert-warning mt-4">
+                <i class="fas fa-exclamation-triangle me-2"></i>This degree has not been added to the blockchain yet.
+            </div>
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <a href="{{ url_for('add_degree') }}" class="btn btn-primary rounded-pill px-4">
+                    <i class="fas fa-plus me-2"></i>Add Another Degree
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Styles -->
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #1a2980, #26d0ce);
+    }
+    .degree-details .detail-item {
+        padding: 12px 0;
+        border-bottom: 1px solid #eee;
+    }
+    .detail-label {
+        font-weight: 600;
+        color: #495057;
+        min-width: 160px;
+        display: inline-block;
+    }
+    .detail-value {
+        color: #212529;
+    }
+    .verified-badge, .pending-badge {
+        animation: fadeIn 0.5s ease-out;
+    }
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    code {
+        background: #f8f9fa;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        cursor: pointer;
+    }
+</style>
+
+<!-- Script for copy and tooltip -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        document.querySelectorAll('code').forEach(code => {
+            code.addEventListener('click', function() {
+                navigator.clipboard.writeText(this.textContent.trim());
+                const originalText = this.textContent;
+                this.textContent = 'Copied!';
+                setTimeout(() => {
+                    this.textContent = originalText;
+                }, 1500);
+            });
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,503 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Flash Messages Section -->
+<div class="container mt-3">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show">
+          <i class="fas fa-{{ 'check-circle' if category == 'success' else 'exclamation-triangle' }} me-2"></i>
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+</div>
+
+<!-- Animated Hero Section -->
+<section class="login-hero py-5 position-relative overflow-hidden" style="background: linear-gradient(135deg, #0d47a1, #1976d2);">
+  <div class="container position-relative z-index-1 text-center text-white">
+    <div class="animate__animated animate__fadeInDown">
+      <div class="hexagon-icon mx-auto mb-4">
+        <i class="fas fa-user-shield"></i>
+      </div>
+      <h1 class="display-5 fw-bold mb-3">Admin Authentication</h1>
+      <p class="lead mb-4">Access the blockchain administration dashboard</p>
+    </div>
+    <div class="trust-badges animate__animated animate__fadeInUp animate__delay-1s">
+      <span class="badge-glass px-3 py-2 me-2">
+        <i class="fas fa-shield-alt me-2 pulse"></i> Admin Secure Access
+      </span>
+      <span class="badge-glass px-3 py-2">
+        <i class="fas fa-link me-2 pulse"></i> Blockchain Authorized
+      </span>
+    </div>
+  </div>
+  <div class="blockchain-animation">
+    <div class="node"></div>
+    <div class="node"></div>
+    <div class="node"></div>
+    <div class="connection"></div>
+    <div class="connection"></div>
+    <div class="connection"></div>
+  </div>
+</section>
+
+<!-- Animated Admin Login Form -->
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-lg border-0 animate__animated animate__zoomIn">
+        <div class="card-header text-white text-center py-3 position-relative" style="background: linear-gradient(135deg, #1a237e, #283593);">
+          <h4 class="mb-0"><i class="fas fa-user-cog me-2"></i> Admin Portal</h4>
+          <div class="active-indicator"></div>
+        </div>
+        <div class="card-body p-4 p-md-5">
+          <form method="POST" action="{{ url_for('admin_login') }}" class="needs-validation" novalidate>
+            <!-- Username -->
+            <div class="mb-4 form-floating">
+              <input type="text" 
+                     class="form-control floating-input" 
+                     id="username" 
+                     name="username" 
+                     placeholder=" "
+                     required
+                     minlength="3"
+                     autocomplete="username">
+              <label for="username">
+                <i class="fas fa-user-tie me-2"></i> Admin Username
+              </label>
+              <div class="invalid-feedback">
+                Please enter your username (minimum 3 characters)
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4 form-floating position-relative">
+              <input type="password" 
+                     class="form-control floating-input pe-5" 
+                     id="password" 
+                     name="password" 
+                     placeholder=" "
+                     required
+                     minlength="4"
+                     autocomplete="current-password">
+              <label for="password">
+                <i class="fas fa-lock me-2"></i> Password
+              </label>
+              <button type="button" class="btn btn-link toggle-password position-absolute end-0 top-50 translate-middle-y me-2">
+                <i class="fas fa-eye"></i>
+              </button>
+              <div class="invalid-feedback">
+                Please enter your password (minimum 4 characters)
+              </div>
+              <div class="password-strength mt-2 d-none">
+                <div class="progress" style="height: 3px;">
+                  <div class="progress-bar bg-danger" role="progressbar" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-lg btn-primary-gradient py-3 fw-bold btn-login">
+                <i class="fas fa-sign-in-alt me-2"></i> Authenticate
+                <span class="spinner-border spinner-border-sm ms-2 d-none" role="status"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Animated Admin Features -->
+<section class="bg-light py-5">
+  <div class="container">
+    <h2 class="text-center mb-5 fw-bold animate__animated animate__fadeIn">Admin Privileges</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm security-card animate__animated">
+          <div class="card-body p-4 text-center">
+            <div class="hexagon-icon-sm bg-danger-light mb-3 mx-auto">
+              <i class="fas fa-user-lock text-danger"></i>
+            </div>
+            <h5 class="fw-bold">Restricted Access</h5>
+            <p class="text-muted">Only authorized administrators can access this portal</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm security-card animate__animated">
+          <div class="card-body p-4 text-center">
+            <div class="hexagon-icon-sm bg-warning-light mb-3 mx-auto">
+              <i class="fas fa-cogs text-warning"></i>
+            </div>
+            <h5 class="fw-bold">System Control</h5>
+            <p class="text-muted">Manage all blockchain degree records and verifications</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm security-card animate__animated">
+          <div class="card-body p-4 text-center">
+            <div class="hexagon-icon-sm bg-primary-light mb-3 mx-auto">
+              <i class="fas fa-shield-alt text-primary"></i>
+            </div>
+            <h5 class="fw-bold">Audit Logs</h5>
+            <p class="text-muted">All admin actions are permanently recorded on the blockchain</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Base Styles */
+  .login-hero {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+  }
+  
+  /* Hexagon Icons */
+  .hexagon-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255,255,255,0.1);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    animation: float 3s ease-in-out infinite;
+  }
+  
+  .hexagon-icon-sm {
+    width: 60px;
+    height: 60px;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.1);
+  }
+  
+  .bg-warning-light {
+    background-color: rgba(255, 193, 7, 0.1);
+  }
+  
+  .bg-primary-light {
+    background-color: rgba(26, 35, 126, 0.1);
+  }
+  
+  /* Blockchain Animation */
+  .blockchain-animation {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 0;
+  }
+  
+  .node {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 50%;
+    animation: nodePulse 2s infinite ease-in-out;
+  }
+  
+  .node:nth-child(1) {
+    top: 20%;
+    left: 15%;
+    animation-delay: 0s;
+  }
+  
+  .node:nth-child(2) {
+    top: 60%;
+    left: 80%;
+    animation-delay: 0.5s;
+  }
+  
+  .node:nth-child(3) {
+    top: 80%;
+    left: 30%;
+    animation-delay: 1s;
+  }
+  
+  .connection {
+    position: absolute;
+    background: rgba(255,255,255,0.1);
+    height: 1px;
+    transform-origin: left center;
+    animation: connectionPulse 4s infinite linear;
+  }
+  
+  .connection:nth-child(4) {
+    top: 20%;
+    left: 15%;
+    width: 100px;
+    transform: rotate(30deg);
+    animation-delay: 0s;
+  }
+  
+  .connection:nth-child(5) {
+    top: 60%;
+    left: 80%;
+    width: 150px;
+    transform: rotate(-20deg);
+    animation-delay: 1s;
+  }
+  
+  .connection:nth-child(6) {
+    top: 80%;
+    left: 30%;
+    width: 120px;
+    transform: rotate(45deg);
+    animation-delay: 2s;
+  }
+  
+  /* Form Styles */
+  .floating-input {
+    padding-left: 3rem;
+    transition: all 0.3s ease;
+  }
+  
+  .floating-input:focus {
+    box-shadow: 0 0 0 0.25rem rgba(26, 35, 126, 0.25);
+    border-color: #1a237e;
+  }
+  
+  .form-floating>label {
+    padding-left: 3rem;
+    transition: all 0.3s ease;
+  }
+  
+  /* Button Styles */
+  .btn-primary-gradient {
+    background: linear-gradient(135deg, #1a237e, #283593);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(26, 35, 126, 0.4);
+  }
+  
+  .btn-primary-gradient::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0.1) 50%,
+      rgba(255,255,255,0) 100%
+    );
+    transform: rotate(30deg);
+    transition: all 0.5s ease;
+  }
+  
+  .btn-primary-gradient:hover::after {
+    left: 100%;
+  }
+  
+  /* Active Indicator */
+  .active-indicator {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 3px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 3px;
+  }
+  
+  .active-indicator::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 100%;
+    background: white;
+    border-radius: 3px;
+    animation: activeIndicator 2s infinite ease-in-out;
+  }
+  
+  /* Badge Glass */
+  .badge-glass {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+  
+  .badge-glass:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+  }
+  
+  /* Pulse Animation */
+  .pulse {
+    animation: pulse 2s infinite;
+  }
+  
+  /* Card Hover Effect */
+  .security-card {
+    transition: all 0.3s ease;
+    transform: translateY(0);
+  }
+  
+  .security-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+  }
+  
+  .security-card:hover .hexagon-icon-sm {
+    transform: rotate(15deg) scale(1.1);
+  }
+  
+  /* Alert Styles */
+  .alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+  }
+  
+  .alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+  }
+  
+  .alert i {
+    margin-right: 8px;
+  }
+  
+  /* Animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+  
+  @keyframes nodePulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.5); opacity: 0.8; }
+  }
+  
+  @keyframes connectionPulse {
+    0% { width: 0; opacity: 0; }
+    50% { opacity: 0.3; }
+    100% { width: calc(100vw + 200px); opacity: 0; }
+  }
+  
+  @keyframes activeIndicator {
+    0%, 100% { left: 0; }
+    50% { left: calc(100% - 20px); }
+  }
+</style>
+
+<script>
+  // Initialize animations when page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animate security cards in sequence
+    const cards = document.querySelectorAll('.security-card');
+    cards.forEach((card, index) => {
+      card.classList.add('animate__fadeInUp');
+      card.style.animationDelay = `${index * 0.2}s`;
+    });
+    
+    // Password strength indicator
+    const passwordInput = document.getElementById('password');
+    if (passwordInput) {
+      passwordInput.addEventListener('input', function() {
+        const strengthBar = this.nextElementSibling?.querySelector('.progress-bar');
+        const strengthContainer = this.nextElementSibling;
+        if (!strengthBar) return;
+        
+        strengthContainer.classList.remove('d-none');
+        const length = this.value.length;
+        let width = 0;
+        let color = 'bg-danger';
+        
+        if (length > 0) width = 25;
+        if (length > 4) width = 50;
+        if (length > 8) width = 75;
+        if (length > 12) width = 100;
+        
+        if (width >= 75) color = 'bg-success';
+        else if (width >= 50) color = 'bg-warning';
+        
+        strengthBar.style.width = `${width}%`;
+        strengthBar.className = `progress-bar ${color}`;
+      });
+    }
+    
+    // Toggle password visibility
+    document.querySelector('.toggle-password')?.addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const icon = this.querySelector('i');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    });
+    
+    // Form submission loader
+    const form = document.querySelector('form');
+    if (form) {
+      form.addEventListener('submit', function() {
+        const submitBtn = this.querySelector('.btn-login');
+        const spinner = this.querySelector('.spinner-border');
+        if (submitBtn && spinner) {
+          submitBtn.disabled = true;
+          spinner.classList.remove('d-none');
+        }
+      });
+    }
+    
+    // Form validation
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  });
+</script>
+{% endblock %}

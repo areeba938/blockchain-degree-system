@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Header Section -->
+<section class="bg-dark text-white py-5 shadow-lg position-relative overflow-hidden">
+  <div class="container text-center">
+    <h1 class="display-5 fw-bold mb-2 animate__animated animate__fadeInDown">Blockchain Explorer</h1>
+    <p class="lead animate__animated animate__fadeInUp">Explore immutable blockchain records for issued degrees</p>
+  </div>
+  <div class="animated-background">
+    <div class="circle one"></div>
+    <div class="circle two"></div>
+    <div class="circle three"></div>
+  </div>
+</section>
+
+<!-- Search + Stats -->
+<div class="container py-5">
+  <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+    <h4 class="text-primary fw-bold m-0">🔗 Total Blocks: {{ blockchain | length }}</h4>
+    <div class="d-flex gap-2 flex-wrap">
+      <input type="text" class="form-control form-control-sm" placeholder="Search by Student ID..." id="searchInput">
+      <button class="btn btn-outline-primary btn-sm" onclick="expandAll()">Expand All</button>
+    </div>
+  </div>
+
+  <!-- Alert -->
+  <div id="noResultsAlert" class="alert alert-warning d-none" role="alert">
+    🚫 No Matching Results Found.
+  </div>
+
+  <!-- Accordion Display -->
+  <div class="accordion" id="blockchainAccordion">
+    {% for block in blockchain %}
+    <div class="accordion-item border-0 shadow-sm mb-3 block-item" data-student-id="{{ block['data']['student_id'] if block['index'] != 0 }}">
+      <h2 class="accordion-header" id="heading{{ loop.index }}">
+        <button class="accordion-button collapsed bg-gradient text-white fw-bold" type="button"
+          data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="false"
+          aria-controls="collapse{{ loop.index }}">
+          🧱 Block #{{ block['index'] }} — <small class="text-warning">{{ block['timestamp'] }}</small>
+        </button>
+      </h2>
+      <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ loop.index }}"
+        data-bs-parent="#blockchainAccordion">
+        <div class="accordion-body bg-light">
+          <div class="row">
+            <div class="col-md-6">
+              <p><strong>Hash:</strong> <code>{{ block['hash'] }}</code></p>
+              <p><strong>Previous Hash:</strong> <code>{{ block['previous_hash'] }}</code></p>
+              <p><strong>Nonce:</strong> {{ block['nonce'] }}</p>
+            </div>
+            <div class="col-md-6">
+              {% if block['index'] == 0 %}
+                <p>{{ block['data']['message'] }}</p>
+              {% else %}
+                <p><strong>Degree ID:</strong> {{ block['data']['id'] }}</p>
+                <p><strong>Student ID:</strong> {{ block['data']['student_id'] }}</p>
+                <p><strong>Degree:</strong> {{ block['data']['degree_name'] }}</p>
+                <p><strong>Institution:</strong> {{ block['data']['institution'] }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Key Highlights Section -->
+<section class="py-5 bg-white border-top">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4 mb-4 animate__animated animate__fadeInUp">
+        <div class="mb-3">
+          <i class="fas fa-search fa-2x text-primary"></i>
+        </div>
+        <h5 class="fw-bold">Transparent Verification</h5>
+        <p class="text-muted small">Easily track and verify academic credentials using tamper-proof blockchain entries.</p>
+      </div>
+      <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-1s">
+        <div class="mb-3">
+          <i class="fas fa-database fa-2x text-success"></i>
+        </div>
+        <h5 class="fw-bold">Immutable Records</h5>
+        <p class="text-muted small">Every block is permanent and cryptographically secure — ensuring lifelong trust.</p>
+      </div>
+      <div class="col-md-4 mb-4 animate__animated animate__fadeInUp animate__delay-2s">
+        <div class="mb-3">
+          <i class="fas fa-globe fa-2x text-info"></i>
+        </div>
+        <h5 class="fw-bold">Global Accessibility</h5>
+        <p class="text-muted small">Accessible from anywhere, your records are verifiable by institutions and employers worldwide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Styles -->
+<style>
+.bg-gradient {
+  background: linear-gradient(135deg, #1a237e, #283593) !important;
+}
+
+.animated-background {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.animated-background .circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.1;
+  animation: float 8s ease-in-out infinite;
+}
+
+.circle.one {
+  width: 150px;
+  height: 150px;
+  background: #2196f3;
+  top: 20%;
+  left: 10%;
+}
+
+.circle.two {
+  width: 100px;
+  height: 100px;
+  background: #ff9800;
+  top: 60%;
+  left: 80%;
+}
+
+.circle.three {
+  width: 120px;
+  height: 120px;
+  background: #4caf50;
+  top: 80%;
+  left: 30%;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0); }
+}
+</style>
+
+<!-- Script -->
+<script>
+function expandAll() {
+  const items = document.querySelectorAll('.accordion-collapse');
+  items.forEach(item => {
+    const bsCollapse = new bootstrap.Collapse(item, { toggle: false });
+    bsCollapse.show();
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', function () {
+  const query = this.value.trim().toLowerCase();
+  let anyVisible = false;
+
+  document.querySelectorAll('.block-item').forEach(item => {
+    const studentId = item.getAttribute('data-student-id')?.toLowerCase() || '';
+    const show = query === '' || studentId.includes(query);
+
+    item.style.display = show ? '' : 'none';
+    if (show) anyVisible = true;
+  });
+
+  document.getElementById('noResultsAlert').classList.toggle('d-none', anyVisible);
+});
+</script>
+
+{% endblock %}

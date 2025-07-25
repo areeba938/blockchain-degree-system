@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Blockchain Based Degree Issuance And Verification System</title>
+    <meta name="description" content="Secure, tamper-proof degree issuance and verification using blockchain technology."/>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"/>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon"/>
+
+    <!-- VanillaTilt.js for interactive tilt effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+
+    <style>
+        .social-link {
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        .social-link:hover {
+            transform: scale(1.2);
+            color: #00bcd4 !important;
+        }
+        footer a.text-muted:hover {
+            color: #ffffff !important;
+            text-decoration: underline;
+        }
+        .section-highlight {
+            background: linear-gradient(135deg, #f3f4f6, #e3eafc);
+        }
+        .tilt-box {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease-in-out;
+        }
+        .tilt-box:hover {
+            transform: translateY(-5px);
+        }
+    </style>
+</head>
+
+<body style="font-family: 'Poppins', sans-serif;" class="d-flex flex-column min-vh-100 bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top shadow-sm" style="background: linear-gradient(135deg, #1a237e, #283593);">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url_for('home') }}">
+                <i class="fas fa-link me-2"></i>
+                <span class="gradient-text">DegreeChain</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link active" href="{{ url_for('home') }}"><i class="fas fa-home me-1"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('add_degree') }}"><i class="fas fa-user-graduate me-1"></i> Student Portal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('view_blockchain') }}"><i class="fas fa-project-diagram me-1"></i> Blockchain Explorer</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-light btn-sm mx-1" href="{{ url_for('student.login_student') }}">
+                            <i class="fas fa-sign-in-alt me-1"></i> Student Login
+                        </a>
+                    </li>
+                    {% if 'admin_id' in session %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle btn btn-primary btn-sm mx-1" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-shield me-1"></i> Admin
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                            <li><a class="dropdown-item" href="{{ url_for('admin_dashboard') }}"><i class="fas fa-tachometer-alt me-2"></i>Dashboard</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('add_student') }}"><i class="fas fa-user-plus me-2"></i>Register Student</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{{ url_for('admin_logout') }}"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary btn-sm mx-1" href="{{ url_for('admin_login') }}">
+                            <i class="fas fa-lock me-1"></i> Admin Login
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    {% if request.path == url_for('home') %}
+    <section class="section-highlight py-5">
+        <div class="container">
+            <div class="row align-items-center g-4">
+                <div class="col-md-6 animate__animated animate__fadeInLeft">
+                    <h2 class="display-5 fw-bold text-primary mb-3">Validate Academic Credentials with Blockchain-Powered Security</h2>
+                    <p class="lead text-dark mb-3">Tamper-proof security and decentralized trust—your degrees are safe forever.</p>
+                    <p class="text-muted">Leveraging the power of distributed ledger technology, DegreeChain ensures that academic records are immutable, transparent, and instantly verifiable anywhere in the world.</p>
+                    <p class="text-muted">No intermediaries, no forgery—just trust, accountability, and automation.</p>
+                    <a href="{{ url_for('verify_degree') }}" class="btn btn-primary mt-3 px-4 py-2">Start Verifying</a>
+                </div>
+                <div class="col-md-6 animate__animated animate__fadeInRight">
+                   <img src="{{ url_for('static', filename='images/5.jpg') }}" alt="Blockchain Verification" class="img-fluid rounded tilt-box" />
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Military Grade Security Section -->
+    <section class="bg-white py-5">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-8" data-tilt data-tilt-max="5" data-tilt-speed="400" class="tilt-box p-4">
+                    <h3 class="fw-bold text-dark mb-3">Powered by Cryptographic Trust</h3>
+                    <p class="text-muted fs-5">Instant verification and global recognition through secure distributed ledgers.</p>
+                    <p class="text-muted">Using advanced cryptographic protocols and a Proof-of-Authority consensus, each credential is securely issued and permanently stored.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="container my-5 flex-grow-1">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ 'danger' if category == 'error' else 'success' }} alert-dismissible fade show shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <i class="fas {{ 'fa-exclamation-circle' if category == 'error' else 'fa-check-circle' }} me-2"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-animation">
+    <div class="orb"></div>
+    <div class="orb"></div>
+    <div class="orb"></div>
+  </div>
+  <div class="footer-text">
+    <p class="quote">"Precision. Integrity. Verified forever."</p>
+    <p class="subtle">Made with trust and transparency ✦</p>
+    <p class="time" id="liveTime"></p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    background: #121212;
+    color: #ffffffcc;
+    padding: 40px 20px 30px;
+    text-align: center;
+    overflow: hidden;
+    border-top: 1px solid #333;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .footer-text .quote {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #e0e0e0;
+  }
+
+  .footer-text .subtle {
+    font-size: 0.9rem;
+    color: #aaaaaa;
+    margin-bottom: 10px;
+  }
+
+  .footer-text .time {
+    font-size: 0.8rem;
+    color: #888888;
+    font-family: monospace;
+  }
+
+  .footer-animation {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    z-index: 0;
+    opacity: 0.05;
+  }
+
+  .footer-animation .orb {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    border-radius: 50%;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .footer-animation .orb:nth-child(2) {
+    animation-delay: 2s;
+    background: linear-gradient(135deg, #fc6076, #ff9a44);
+  }
+
+  .footer-animation .orb:nth-child(3) {
+    animation-delay: 4s;
+    background: linear-gradient(135deg, #43e97b, #38f9d7);
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) scale(1);
+    }
+    50% {
+      transform: translateY(20px) scale(1.05);
+    }
+  }
+</style>
+
+<script>
+  // Optional: live time updater
+  function updateTime() {
+    const now = new Date();
+    document.getElementById("liveTime").textContent =
+      "Local time: " + now.toLocaleTimeString();
+  }
+  setInterval(updateTime, 1000);
+  updateTime();
+</script>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-floating rounded-circle position-fixed bottom-0 end-0 m-4 d-flex align-items-center justify-content-center" id="back-to-top" style="width: 50px; height: 50px; display: none;">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+    <!-- Scroll Logic -->
+    <script>
+        window.addEventListener('scroll', function () {
+            const backToTop = document.getElementById('back-to-top');
+            backToTop.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        });
+        VanillaTilt.init(document.querySelectorAll("[data-tilt]"));
+    </script>
+</body>
+</html>

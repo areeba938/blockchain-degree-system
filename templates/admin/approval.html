@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <div class="card shadow-lg rounded-4 border-0 mb-4">
+                <div class="card-header bg-gradient-primary text-white py-3">
+                    <h3 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Degree Approval Panel</h3>
+                </div>
+                <div class="card-body">
+                    {% if block %}
+                        <!-- Degree Info -->
+                        <div class="mb-4">
+                            <h4 class="mb-3 text-primary"><i class="fas fa-user-graduate me-2"></i>Degree Information</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6"><strong>Degree ID:</strong> {{ block.degree.id }}</div>
+                                <div class="col-md-6"><strong>Student ID:</strong> {{ block.degree.student_id }}</div>
+                                <div class="col-md-6"><strong>Degree Name:</strong> {{ block.degree.degree_name }}</div>
+                                <div class="col-md-6"><strong>Institution:</strong> {{ block.degree.institution }}</div>
+                                <div class="col-md-6"><strong>Year Awarded:</strong> {{ block.degree.year_awarded }}</div>
+                                <div class="col-md-6"><strong>Field of Study:</strong> {{ block.degree.field_of_study }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Blockchain Info -->
+                        <div class="mb-4">
+                            <h4 class="mb-3 text-primary"><i class="fas fa-link me-2"></i>Blockchain Information</h4>
+                            <div class="row g-3">
+                                <div class="col-md-6"><strong>Block ID:</strong> {{ block.id }}</div>
+                                <div class="col-md-6">
+                                    <strong>Status:</strong>
+                                    <span class="badge bg-{{ 'success' if block.approved else 'warning' }} px-3">
+                                        {{ "Approved" if block.approved else "Pending Approval" }}
+                                    </span>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Current Hash:</strong>
+                                    <code class="hash-copy d-block text-truncate" title="Click to copy" data-bs-toggle="tooltip">{{ block.current_hash }}</code>
+                                </div>
+                                <div class="col-md-6">
+                                    <strong>Previous Hash:</strong>
+                                    <code class="hash-copy d-block text-truncate" title="Click to copy" data-bs-toggle="tooltip">{{ block.previous_hash }}</code>
+                                </div>
+                                <div class="col-md-6"><strong>Nonce:</strong> {{ block.nonce }}</div>
+                                <div class="col-md-6"><strong>Timestamp:</strong> {{ block.timestamp }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Approval History -->
+                        <div class="mb-4">
+                            <h4 class="mb-3 text-primary"><i class="fas fa-history me-2"></i>Approval History</h4>
+                            {% if approvals %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Admin</th>
+                                                <th>Status</th>
+                                                <th>Timestamp</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for approval in approvals %}
+                                            <tr>
+                                                <td>{{ approval.admin.username }}</td>
+                                                <td>
+                                                    <span class="badge bg-{{ 'success' if approval.approval_status else 'danger' }}">
+                                                        {{ "Approved" if approval.approval_status else "Rejected" }}
+                                                    </span>
+                                                </td>
+                                                <td>{{ approval.approved_at }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No approvals recorded yet.</p>
+                            {% endif %}
+                        </div>
+
+                        <!-- Approval Form -->
+                        {% if not block.approved %}
+                            <div class="mb-4">
+                                <h4 class="mb-3 text-primary"><i class="fas fa-check-circle me-2"></i>Submit Your Approval</h4>
+                                {% if current_user_approval %}
+                                    <div class="alert alert-info">
+                                        You have already 
+                                        <strong>{{ "approved" if current_user_approval.approval_status else "rejected" }}</strong> 
+                                        this degree.
+                                    </div>
+                                {% else %}
+                                    <form method="POST" action="{{ url_for('process_approval', block_id=block.id) }}">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="approval_status" value="approve" id="approve" required>
+                                            <label class="form-check-label" for="approve">Approve</label>
+                                        </div>
+                                        <div class="form-check form-check-inline mb-3">
+                                            <input class="form-check-input" type="radio" name="approval_status" value="reject" id="reject">
+                                            <label class="form-check-label" for="reject">Reject</label>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="comments" class="form-label">Comments (optional)</label>
+                                            <textarea class="form-control" id="comments" name="comments" rows="3"></textarea>
+                                        </div>
+                                        <button type="submit" class="btn btn-success rounded-pill px-4">
+                                            <i class="fas fa-paper-plane me-2"></i>Submit
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success">
+                                <i class="fas fa-check-circle me-2"></i>This degree has been fully approved and added to the blockchain.
+                            </div>
+                        {% endif %}
+
+                        <!-- Navigation -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-outline-secondary rounded-pill">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            <a href="{{ url_for('view_degree', degree_id=block.degree.id) }}" class="btn btn-primary rounded-pill">
+                                <i class="fas fa-eye me-2"></i>View Degree Details
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle me-2"></i>No block found with the specified ID.
+                        </div>
+                        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary rounded-pill">
+                            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom JS -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Tooltips
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        tooltipTriggerList.map(function (el) {
+            return new bootstrap.Tooltip(el)
+        });
+
+        // Copy hash to clipboard
+        document.querySelectorAll('.hash-copy').forEach(el => {
+            el.style.cursor = 'pointer';
+            el.addEventListener('click', () => {
+                navigator.clipboard.writeText(el.textContent.trim());
+                const original = el.textContent;
+                el.textContent = 'Copied!';
+                setTimeout(() => {
+                    el.textContent = original;
+                }, 1500);
+            });
+        });
+    });
+</script>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #1a2980, #26d0ce);
+    }
+
+    .hash-copy {
+        background-color: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+    }
+
+    .approval-container h2 {
+        font-weight: 600;
+        color: #1a2980;
+    }
+
+    .card:hover {
+        transform: translateY(-4px);
+        transition: 0.3s;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid px-4 py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Registration Card -->
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden">
+                <!-- Card Header -->
+                <div class="card-header bg-gradient-primary text-white py-4">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 me-3">
+                            <i class="fas fa-user-graduate fa-2x"></i>
+                        </div>
+                        <div>
+                            <h2 class="mb-1"><i class="fas fa-user-plus me-2"></i>Student Registration</h2>
+                            <p class="mb-0 opacity-75">Register new students for blockchain credential verification</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card Body with Form -->
+                <div class="card-body p-4 p-md-5">
+                    <form action="{{ url_for('student.add_student') }}" method="POST" id="studentForm" class="needs-validation" novalidate>
+                        <!-- Student ID Field -->
+                        <div class="mb-4 form-floating">
+                            <input type="text" class="form-control form-control-lg" name="student_id" id="student_id" 
+                                   required pattern="^[A-Za-z0-9]{6,12}$" 
+                                   title="Student ID must be 6-12 alphanumeric characters" 
+                                   maxlength="12" placeholder="STU2023001">
+                            <label for="student_id" class="fw-semibold">
+                                <i class="fas fa-id-card me-2"></i>Student ID
+                            </label>
+                            <div class="invalid-feedback">
+                                Please provide a valid Student ID (6-12 alphanumeric characters)
+                            </div>
+                            <div class="form-text text-muted">
+                                Must contain only letters and numbers (6-12 characters)
+                            </div>
+                        </div>
+
+                        <!-- Full Name Field -->
+                        <div class="mb-4 form-floating">
+                            <input type="text" class="form-control form-control-lg" name="full_name" id="full_name" 
+                                   required pattern="^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*)*$"
+                                   title="Full name must start with capital letters and contain only letters"
+                                   maxlength="30" placeholder="John Doe">
+                            <label for="full_name" class="fw-semibold">
+                                <i class="fas fa-user me-2"></i>Full Name
+                            </label>
+                            <div class="invalid-feedback">
+                                Please provide a valid name (Start with capital letters, letters only)
+                            </div>
+                            <div class="form-text text-muted">
+                                Must start with capital letters and contain only letters
+                            </div>
+                        </div>
+
+                        <!-- Email Field -->
+                        <div class="mb-4 form-floating">
+                            <input type="email" class="form-control form-control-lg" name="email" id="email" 
+                                   required pattern="^[A-Z][a-zA-Z0-9]{7,}@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$"
+                                   title="Email must start with capital letter, be at least 8 chars, and contain numbers"
+                                   placeholder="Student123@university.edu">
+                            <label for="email" class="fw-semibold">
+                                <i class="fas fa-envelope me-2"></i>Email Address
+                            </label>
+                            <div class="invalid-feedback">
+                                Email must start with capital letter, be at least 8 chars, and contain numbers
+                            </div>
+                            <div class="form-text text-muted">
+                                Format: Capital first letter, min 8 chars with numbers (e.g. Student123@university.edu)
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill py-3" id="submitBtn">
+                                <span class="submit-text">
+                                    <i class="fas fa-user-plus me-2"></i>Register Student
+                                </span>
+                                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Registration Tips -->
+            <div class="card border-0 shadow-sm mt-4">
+                <div class="card-body">
+                    <h5 class="mb-3"><i class="fas fa-lightbulb text-warning me-2"></i>Registration Guidelines</h5>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0 me-3 text-primary">
+                                    <i class="fas fa-id-badge fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Student ID</h6>
+                                    <p class="small text-muted mb-0">Must be 6-12 alphanumeric characters only</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0 me-3 text-success">
+                                    <i class="fas fa-user fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Full Name</h6>
+                                    <p class="small text-muted mb-0">Start with capital letters, letters only</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0 me-3 text-info">
+                                    <i class="fas fa-envelope fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Email</h6>
+                                    <p class="small text-muted mb-0">Capital first letter, min 8 chars with numbers</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0 me-3 text-warning">
+                                    <i class="fas fa-shield-alt fs-4"></i>
+                                </div>
+                                <div>
+                                    <h6 class="mb-1">Security</h6>
+                                    <p class="small text-muted mb-0">Data will be securely stored on blockchain</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #1a2980, #26d0ce);
+    }
+    .form-floating label {
+        padding-left: 2.5rem;
+    }
+    .form-floating>.form-control {
+        padding-left: 3rem;
+        border-radius: 8px;
+    }
+    .form-floating>.form-control:focus {
+        box-shadow: 0 0 0 0.25rem rgba(26, 41, 128, 0.25);
+        border-color: #1a2980;
+    }
+    #submitBtn {
+        background: linear-gradient(135deg, #1a2980, #26d0ce);
+        border: none;
+        transition: all 0.3s ease;
+    }
+    #submitBtn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(26, 41, 128, 0.3);
+    }
+    .card {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .was-validated .form-control:invalid,
+    .form-control.is-invalid {
+        border-color: #dc3545;
+        background-image: none;
+    }
+    .was-validated .form-control:valid,
+    .form-control.is-valid {
+        border-color: #198754;
+        background-image: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('studentForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const inputs = form.querySelectorAll('.form-control');
+
+        // Real-time validation
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('is-valid', 'is-invalid');
+                if (this.checkValidity()) {
+                    this.classList.add('is-valid');
+                } else if (this.value) {
+                    this.classList.add('is-invalid');
+                }
+            });
+        });
+
+        // Form submission
+        form.addEventListener('submit', function(e) {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                e.stopPropagation();
+                inputs.forEach(input => {
+                    if (!input.checkValidity()) {
+                        input.classList.add('is-invalid');
+                    }
+                });
+            } else {
+                submitBtn.querySelector('.submit-text').classList.add('d-none');
+                submitBtn.querySelector('.spinner-border').classList.remove('d-none');
+                submitBtn.disabled = true;
+            }
+            form.classList.add('was-validated');
+        });
+
+        // Validation logic
+        window.validateStudentForm = function() {
+            const studentId = document.getElementById('student_id').value.trim();
+            const name = document.getElementById('full_name').value.trim();
+            const email = document.getElementById('email').value.trim();
+
+            if (studentId.length < 6 || studentId.length > 12) {
+                alert("Student ID must be between 6 and 12 characters.");
+                return false;
+            }
+            if (!/^[a-zA-Z0-9]+$/.test(studentId)) {
+                alert("Student ID must be alphanumeric only.");
+                return false;
+            }
+            if (!/^[A-Z][a-zA-Z]*(\s[A-Z][a-zA-Z]*)*$/.test(name)) {
+                alert("Full name must start with capital letters and contain only letters.");
+                return false;
+            }
+            if (!/^[A-Z][a-zA-Z0-9]{7,}@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/.test(email)) {
+                alert("Email must start with capital letter, be at least 8 chars, and contain numbers.");
+                return false;
+            }
+            return true;
+        };
+    });
+</script>
+{% endblock %}

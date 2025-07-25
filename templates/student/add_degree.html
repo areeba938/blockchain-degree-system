@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Degree Request Hero Section -->
+<section class="degree-hero py-4" style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-5 fw-bold mb-3 text-gradient animate__animated animate__fadeInDown">
+                    <i class="fas fa-file-certificate me-2"></i> Certificate Request
+                </h1>
+                <p class="lead animate__animated animate__fadeInUp">Securely submit your degree information to the blockchain network</p>
+                <div class="trust-badges d-flex justify-content-center gap-3 mt-3">
+                    <span class="badge bg-white text-primary p-2 animate__animated animate__fadeInLeft animate__delay-1s">
+                        <i class="fas fa-lock me-1"></i> Encrypted Submission
+                    </span>
+                    <span class="badge bg-white text-primary p-2 animate__animated animate__fadeInRight animate__delay-1s">
+                        <i class="fas fa-link me-1"></i> Blockchain Verified
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Form Section -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-lg animate__animated animate__zoomIn">
+                <div class="card-header py-3 text-white" style="background: linear-gradient(135deg, #1a237e, #283593);">
+                    <h3 class="mb-0"><i class="fas fa-pen-to-square me-2"></i> Degree Information</h3>
+                </div>
+                <div class="card-body p-4 p-md-5">
+                    <form method="POST" class="needs-validation" novalidate>
+                        <!-- Student ID Field -->
+                        <div class="mb-4">
+                            <label for="student_id" class="form-label fw-bold">
+                                <i class="fas fa-id-card me-2"></i> Student ID
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <input type="text" class="form-control" id="student_id" name="student_id" required
+                                    pattern="^[A-Za-z0-9]{6,12}$"
+                                    title="Student ID must be 6–12 alphanumeric characters.">
+                            </div>
+                            <div class="invalid-feedback">
+                                Please provide a valid Student ID (6–12 alphanumeric characters).
+                            </div>
+                        </div>
+
+                        <!-- Degree Name Field -->
+                        <div class="mb-4">
+                            <label for="degree_name" class="form-label fw-bold">
+                                <i class="fas fa-graduation-cap me-2"></i> Degree Name
+                            </label>
+                            <select class="form-select form-select-lg" name="degree_name" id="degree_name" required onchange="updateFieldOfStudy()">
+                                <option value="">Select Degree</option>
+                                <option value="MCA">MCA</option>
+                                <option value="I MBA">IMBA</option>
+                                <option value="PG Zoology">PG Zoology</option>
+                                <option value="PG English">PG English</option>
+                                <option value="PG Physics">PG Physics</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a degree program
+                            </div>
+                        </div>
+
+                        <!-- Institution Field -->
+                        <div class="mb-4">
+                            <label for="institution" class="form-label fw-bold">
+                                <i class="fas fa-university me-2"></i> Institution
+                            </label>
+                            <select class="form-select form-select-lg" id="institution" name="institution" required>
+                                <option value="">Select Institution</option>
+                                <option value="University of Kashmir Main Campus">University of Kashmir Main Campus</option>
+                                <option value="University of Kashmir North Campus">University of Kashmir North Campus</option>
+                                <option value="University of Kashmir South Campus">University of Kashmir South Campus</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select an institution
+                            </div>
+                        </div>
+
+                        <!-- Year Awarded Field -->
+                        <div class="mb-4">
+                            <label for="year_awarded" class="form-label fw-bold">
+                                <i class="fas fa-calendar-alt me-2"></i> Year Awarded
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light">
+                                    <i class="fas fa-calendar"></i>
+                                </span>
+                                <input type="text" class="form-control" id="year_awarded" name="year_awarded"
+                                    pattern="^(19|20)\d{2}$" maxlength="4" required
+                                    title="Enter a valid year between 1900 and 2099">
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter a valid 4-digit year (1900–2099).
+                            </div>
+                        </div>
+
+                        <!-- Field of Study (Dynamic) -->
+                        <div class="mb-4">
+                            <label for="field_of_study" class="form-label fw-bold">
+                                <i class="fas fa-book me-2"></i> Field of Study
+                            </label>
+                            <select class="form-select form-select-lg" name="field_of_study" id="field_of_study" required>
+                                <option value="">Select Field of Study</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a field of study
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 animate__animated animate__pulse animate__infinite">
+                                <i class="fas fa-paper-plane me-2"></i> Submit to Blockchain
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trust Indicators Section -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="text-center p-4">
+                    <div class="icon-circle bg-primary bg-opacity-10 mb-3 mx-auto">
+                        <i class="fas fa-shield-alt text-primary"></i>
+                    </div>
+                    <h5 class="fw-bold">Secure Submission</h5>
+                    <p class="text-muted">All data is encrypted before being written to the blockchain.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center p-4">
+                    <div class="icon-circle bg-success bg-opacity-10 mb-3 mx-auto">
+                        <i class="fas fa-clock text-success"></i>
+                    </div>
+                    <h5 class="fw-bold">Permanent Record</h5>
+                    <p class="text-muted">Once submitted, your degree cannot be altered or deleted.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="text-center p-4">
+                    <div class="icon-circle bg-info bg-opacity-10 mb-3 mx-auto">
+                        <i class="fas fa-check-circle text-info"></i>
+                    </div>
+                    <h5 class="fw-bold">Instant Verification</h5>
+                    <p class="text-muted">Your degree will be immediately verifiable worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .text-gradient {
+        background: linear-gradient(90deg, #1a237e 0%, #1976d2 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+    }
+    .card {
+        border-radius: 12px;
+    }
+</style>
+
+<script>
+    function updateFieldOfStudy() {
+        const degreeFieldMap = {
+            "MCA": ["Department of Computer Science"],
+            "I MBA": ["Department of Management"],
+            "PG Zoology": ["Department of Zoology"],
+            "PG English": ["Department of English"],
+            "PG Physics": ["Department of Physics"]
+        };
+        const degree = document.getElementById("degree_name").value;
+        const fieldSelect = document.getElementById("field_of_study");
+        fieldSelect.innerHTML = '<option value="">Select Field of Study</option>';
+        if (degree && degreeFieldMap[degree]) {
+            degreeFieldMap[degree].forEach(dept => {
+                const option = document.createElement("option");
+                option.value = dept;
+                option.textContent = dept;
+                fieldSelect.appendChild(option);
+            });
+        }
+    }
+
+    (function () {
+        'use strict';
+        const forms = document.querySelectorAll('.needs-validation');
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    })();
+</script>
+{% endblock %}
