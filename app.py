@@ -38,6 +38,7 @@ def create_app():
         BlockchainController.initialize_blockchain()
 
     return app
+app = create_app()
 
 
 
