@@ -2,7 +2,9 @@ from my_models import db, Block, Degree, Approval, Admin
 from utils.blockchain_utils import BlockchainUtils
 from utils.crypto import calculate_hash
 from datetime import datetime
+from werkzeug.security import generate_password_hash
 import json
+from my_models import Student
 from flask import current_app
 import os
 
@@ -22,6 +24,13 @@ class BlockchainController:
             print("🔁 Blockchain already initialized in database.")
         else:
             print("🧱 Creating genesis block in database...")
+            genesis_student = Student(
+                student_id='GENESIS_STUDENT',
+                full_name='Genesis Student',
+                email='genesis@example.com',
+                password_hash=generate_password_hash('secure_password')
+            )
+            db.session.add(genesis_student)
             # First create a default degree record for the genesis block
             default_degree = Degree(
                  degree_name='Genesis Degree',
