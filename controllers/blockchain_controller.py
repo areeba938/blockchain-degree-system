@@ -24,7 +24,7 @@ class BlockchainController:
             print("🧱 Creating genesis block in database...")
             # First create a default degree record for the genesis block
             default_degree = Degree(
-                 name='Genesis Degree',
+                 degree_name='Genesis Degree',
                  institution='Blockchain Authority',
                  field_of_study='Genesis Block',
                  # Add any other required fields for your Degree model
