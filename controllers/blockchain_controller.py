@@ -22,6 +22,16 @@ class BlockchainController:
             print("🔁 Blockchain already initialized in database.")
         else:
             print("🧱 Creating genesis block in database...")
+            # First create a default degree record for the genesis block
+            default_degree = Degree(
+                 name='Genesis Degree',
+                 institution='Blockchain Authority',
+                 field_of_study='Genesis Block',
+                 # Add any other required fields for your Degree model
+                 created_at=datetime.utcnow()
+            )
+            db.session.add(default_degree)
+            db.session.flush()  # This assigns an ID without committing
             genesis_data = {
                 'id': 0,
                 'student_id': '0000',
@@ -39,7 +49,7 @@ class BlockchainController:
             genesis_block = Block(
                 previous_hash="0" * 64,
                 current_hash=genesis_hash,
-                degree_id=None,
+                degree_id=default_degree.id,# Use the default degree's ID 
                 timestamp=datetime.utcnow(),
                 nonce=0,
                 approved=True
