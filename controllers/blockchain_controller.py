@@ -1,4 +1,4 @@
-from my_models import db, Block, Degree, Approval, Admin
+from my_models import db, Block, Degree, Approval, Admin, Student
 from utils.blockchain_utils import BlockchainUtils
 from utils.crypto import calculate_hash
 from datetime import datetime
@@ -31,6 +31,7 @@ class BlockchainController:
                 password_hash=generate_password_hash('secure_password')
             )
             db.session.add(genesis_student)
+            db.session.commit() 
             # First create a default degree record for the genesis block
             default_degree = Degree(
                  degree_name='Genesis Degree',
