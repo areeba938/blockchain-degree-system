@@ -25,9 +25,10 @@ class BlockchainController:
             # First create a default degree record for the genesis block
             default_degree = Degree(
                  degree_name='Genesis Degree',
+                 student_id='GENESIS_STUDENT',
                  institution='Blockchain Authority',
                  field_of_study='Genesis Block',
-                 # Add any other required fields for your Degree model
+                 year_awarded=2025,
                  created_at=datetime.utcnow()
             )
             db.session.add(default_degree)
