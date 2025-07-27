@@ -22,6 +22,12 @@
                 <div class="profile-icon d-inline-flex align-items-center justify-content-center bg-white text-primary rounded-circle" style="width: 80px; height: 80px;">
                     <i class="fas fa-user-graduate fs-3"></i>
                 </div>
+
+                <!-- 🚪 Logout Button -->
+                <a href="{{ url_for('student.logout_student') }}" 
+                   class="btn btn-light text-primary fw-bold mt-3 d-block">
+                   <i class="fas fa-sign-out-alt me-1"></i> Logout
+                </a>
             </div>
         </div>
     </div>
@@ -84,7 +90,7 @@
         {% endif %}
     </div>
 
-    <!-- Dynamic Information Section -->
+    <!-- Info Section -->
     <div class="info-section mb-5">
         <div class="row g-4">
             <div class="col-md-4">
@@ -178,7 +184,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Add animation to info cards
     document.querySelectorAll('.info-card').forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
@@ -238,7 +243,6 @@ document.addEventListener('DOMContentLoaded', function() {
     color: #212529;
 }
 
-/* Info Section Styles */
 .info-card {
     transition: all 0.3s ease;
     background-color: white;
