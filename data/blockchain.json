@@ -110,5 +110,21 @@
         },
         "nonce": 0,
         "hash": "5e3415b94db79f949b38aa5949a4dcb890d8c6e6dc145077185cc982496c1fc0"
+    },
+    {
+        "index": 7,
+        "previous_hash": "5e3415b94db79f949b38aa5949a4dcb890d8c6e6dc145077185cc982496c1fc0",
+        "timestamp": "2025-07-30T07:26:28.461684",
+        "data": {
+            "created_at": "2025-07-30T12:54:15.960485",
+            "degree_name": "I MBA",
+            "field_of_study": "Department of Management",
+            "id": 8,
+            "institution": "University of Kashmir Main Campus",
+            "student_id": "23045110066",
+            "year_awarded": 2025
+        },
+        "nonce": 0,
+        "hash": "f7636979eec06bb9e7dfccaab5a8492db930786a19d71d057fef3eb0a3c0fde7"
     }
 ]
