@@ -1,8 +1,9 @@
 from . import db
 
 from datetime import datetime
-import pytz
-india = pytz.timezone('Asia/Kolkata')
+
+def utcnow_iso():
+    return datetime.utcnow().replace(microsecond=0).isoformat()
 
 
 class Degree(db.Model):
@@ -14,7 +15,7 @@ class Degree(db.Model):
     institution = db.Column(db.String(100), nullable=False)
     year_awarded = db.Column(db.Integer, nullable=False)
     field_of_study = db.Column(db.String(100), nullable=False)
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(india))
+    created_at = db.Column(db.DateTime, default=utcnow_iso)
     status = db.Column(db.String(20), default='Pending')
     blockchain_entry = db.relationship('Block', backref='degree', uselist=False, lazy=True)
     approvals = db.relationship('Approval', backref='degree', lazy=True)
@@ -28,7 +29,7 @@ class Degree(db.Model):
             'institution': self.institution,
             'year_awarded': self.year_awarded,
             'field_of_study': self.field_of_study,
-            'created_at': self.created_at.isoformat()
+            'created_at': self.created_at
         }
     @property
     def approved_by(self):

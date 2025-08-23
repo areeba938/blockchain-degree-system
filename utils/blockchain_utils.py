@@ -3,6 +3,18 @@ from datetime import datetime
 import json
 import os
 
+def utcnow_iso():
+    """Return UTC timestamp without microseconds"""
+    return datetime.utcnow().replace(microsecond=0).isoformat()
+def format_timestamp(ts):
+    """Return ISO string (no microseconds). Accepts datetime or str."""
+    if isinstance(ts, datetime):
+        return ts.replace(microsecond=0).isoformat()
+    if isinstance(ts, str):
+        # If contains '.', cut microseconds: "2025-08-22T19:14:15.291723" -> "2025-08-22T19:14:15"
+        return ts.split('.')[0] if '.' in ts else ts
+    return str(ts)
+
 
 class Block:
     def __init__(self, index, previous_hash, timestamp, data, nonce):
@@ -15,7 +27,9 @@ class Block:
 
     def to_dict(self):
         # Ensure datetime is in ISO format string
-        timestamp_str = self.timestamp.isoformat() if isinstance(self.timestamp, datetime) else str(self.timestamp)
+        timestamp_str = format_timestamp(self.timestamp)
+
+
 
         # Ensure data is sorted before saving
         sorted_data = json.loads(json.dumps(self.data, sort_keys=True))
@@ -46,13 +60,43 @@ class Block:
 
 class BlockchainUtils:
     @staticmethod
+    def build_block(index, previous_hash, timestamp, data, nonce):
+        """
+        Create a block dict with consistent structure for both DB and JSON
+        """
+        ts = format_timestamp(timestamp)  # ✅ normalize timestamp
+        sorted_data = json.loads(json.dumps(data, sort_keys=True))  # ✅ sort keys
+
+        block_hash = calculate_hash(
+            int(index),
+            str(previous_hash),
+            ts,
+            sorted_data,
+            int(nonce)
+        )
+        return {
+        "index": int(index),
+        "previous_hash": str(previous_hash),
+        "timestamp": ts,
+        "data": sorted_data,
+        "nonce": int(nonce),
+        "hash": block_hash
+    }
+
+    @staticmethod
     def create_genesis_block():
-        static_timestamp = datetime.utcnow().isoformat()
+        static_timestamp = "2025-01-01T00:00:00"  # FIXED timestamp for determinism
 
         genesis_data = {
-            "message": "Genesis Block",
-            "timestamp": static_timestamp
-        }
+             "id": 0,
+             "student_id": "0000",
+             "degree_name": "Genesis Degree",
+             "institution": "Blockchain Authority",
+             "year_awarded": 2024,
+             "field_of_study": "Genesis Block",
+             "created_at": static_timestamp,
+              "message": "This is the Genesis Block"
+       }
         block = Block(0, "0", static_timestamp, genesis_data, 0)
         return block.to_dict()
 
@@ -60,7 +104,9 @@ class BlockchainUtils:
     def generate_block(last_block, data):
         index = last_block.id + 1
         previous_hash = last_block.current_hash
-        timestamp = datetime.utcnow().isoformat()
+        timestamp = utcnow_iso()
+        timestamp = format_timestamp(timestamp)
+
         nonce = 0
         sorted_data = json.loads(json.dumps(data, sort_keys=True))
         block = Block(index, previous_hash, timestamp, sorted_data, nonce)

@@ -184,6 +184,7 @@ def init_routes(app):
     def view_blockchain():
         blockchain = BlockchainController.get_blockchain()
         blocks = BlockchainController.get_blockchain_blocks()
+        print("DEBUG blockchain data:", blockchain)
         return render_template('public/blockchain.html', blockchain=blockchain, blocks=blocks)
 
     @app.route('/admin/approval/<int:block_id>')

@@ -30,6 +30,7 @@ def create_app():
     app.register_blueprint(routes)
 
     # Ensure necessary directories exist
+    base_dir = Path(__file__).resolve().parent
     os.makedirs('data', exist_ok=True)
 
     # Initialize DB tables and blockchain
@@ -39,7 +40,6 @@ def create_app():
             BlockchainController.initialize_blockchain()
 
     return app
-app = create_app()
 
 
 

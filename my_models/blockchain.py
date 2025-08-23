@@ -1,6 +1,9 @@
 from . import db
 from datetime import datetime
 
+def utcnow_iso():
+    return datetime.utcnow().replace(microsecond=0).isoformat()
+
 class Block(db.Model):
     __tablename__ = 'blockchain'
 
@@ -8,7 +11,7 @@ class Block(db.Model):
     previous_hash = db.Column(db.String(255))
     current_hash = db.Column(db.String(255), nullable=False)
     degree_id = db.Column(db.Integer, db.ForeignKey('degrees.id'), nullable=True)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.utcnow().replace(microsecond=0))
     
     nonce = db.Column(db.Integer, nullable=False)
     approved = db.Column(db.Boolean, default=False)
